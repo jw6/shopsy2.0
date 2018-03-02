@@ -1,0 +1,23 @@
+{
+  "name": "shopsy2.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "nodemon": "^1.14.12",
+    "passport": "*",
+    "passport-jwt": "*"
+  },
+  "author": "Jay Wang",
+  "license": "ISC"
+}
