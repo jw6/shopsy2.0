@@ -63,8 +63,24 @@ module.exports.comparePassword = function(candidatePassword, hash, callback) {
   });
 }
 
+// Update User information, name or email
 module.exports.updateUserInfo = function() {
   User.findOneAndUpdate({ _id: req.params.id }, req.body, function(err, user) {
     res.send(user);
+  });
+}
+
+// Delete an User
+module.exports.removeUser = function() {
+  User.findByIdAndRemove(req.params.id, (err, user) => {
+    if(err) {
+      return res.status(500).send(err);
+    }
+
+    const res = {
+      message: "User sucessfully deleted",
+      id: user._id
+    };
+    return res.status(200).send(response);
   });
 }
