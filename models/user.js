@@ -54,11 +54,17 @@ module.exports.addUser = function(newUser, callback) {
 }
 
 // Compare password for login authentication
-module.exports.comparePassword = (candidatePassword, hash, callback) => {
+module.exports.comparePassword = function(candidatePassword, hash, callback) {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
     if(err) {
       throw err;
     } 
     callback(null, isMatch);
-  })
+  });
+}
+
+module.exports.updateUserInfo = function() {
+  User.findOneAndUpdate({ _id: req.params.id }, req.body, function(err, user) {
+    res.send(user);
+  });
 }
