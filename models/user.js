@@ -34,7 +34,7 @@ module.exports.getUserByEmail = function(email, callback) {
 }
 
 // GET request
-module.exports.getUserByEmail = function(username, callback) {
+module.exports.getUserByUsername = function(username, callback) {
   const query = { username: username }
   User.findOne(query, callback);
 }
