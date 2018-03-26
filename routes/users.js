@@ -11,7 +11,7 @@ router.post('/register', (req, res, next) => {
   let newUser = new User({
     name    : req.body.name,
     username: req.body.username,
-    emai    : req.body.email,
+    email    : req.body.email,
     password: req.body.password 
   });
 
@@ -19,7 +19,7 @@ router.post('/register', (req, res, next) => {
     if(err) {
       res.json({ success: false, msg: 'Failed to register user' });
     } else {
-      res.json({ success: true, msg: 'User register Successfully'})
+      res.json({ success: true, msg: 'User register Successfully'});
     }
   });
 });
@@ -44,14 +44,14 @@ router.post('/login', (req, res,next) => {
       }
 
       if(isMatch) {
-        const token = jwt.sing({ data:user }, config.secret, {
+        const token = jwt.sign({ data:user }, config.secret, {
           expiresIn: 604800 // 1 week
         });
 
         res.json({
           success: true,
           token: 'JWT ' + token,
-          user{
+          user: {
             id: user._id,
             name: user.name,
             username: user.username,
@@ -64,3 +64,15 @@ router.post('/login', (req, res,next) => {
     });
   });
 });
+
+// authenticate is also a method of passport
+router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
+  res.json({user: req.user});
+});
+
+router.route('/:userId')
+  .delete(User.deleteUser)
+  .put(User.updateUser);
+
+// export the router
+module.exports = router;

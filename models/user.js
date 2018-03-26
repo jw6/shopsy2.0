@@ -18,7 +18,7 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String, required: true, trim: true,
   },
-}, { timestamp: true })
+}, { timestamp: true });
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
@@ -64,23 +64,44 @@ module.exports.comparePassword = function(candidatePassword, hash, callback) {
 }
 
 // Update User information, name or email
-module.exports.updateUserInfo = function() {
-  User.findOneAndUpdate({ _id: req.params.id }, req.body, function(err, user) {
-    res.send(user);
-  });
+// module.exports.updateUserInfo = function() {
+//   User.findOneAndUpdate({ _id: req.params.id }, req.body, function(err, user) {
+//     res.send(user);
+//   });
+// }
+
+module.exports.updateUser = function(req, res) {
+  User.findOneAndUpdate({ _id: req.params.userId }, req.body, 
+  {new: true})
+    .then(function(user) {
+      res.json(user);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
 }
 
 // Delete an User
-module.exports.removeUser = function() {
-  User.findByIdAndRemove(req.params.id, (err, user) => {
-    if(err) {
-      return res.status(500).send(err);
-    }
+// module.exports.removeUser = function() {
+//   User.findByIdAndRemove(req.params.id, (err, user) => {
+//     if(err) {
+//       return res.status(500).send(err);
+//     }
 
-    const res = {
-      message: "User sucessfully deleted",
-      id: user._id
-    };
-    return res.status(200).send(response);
-  });
+//     const res = {
+//       message: "User sucessfully deleted",
+//       id: user._id
+//     };
+//     return res.status(200).send(response);
+//   });
+// }
+
+module.exports.deleteUser = function(req, res) {
+  User.remove( { _id: req.params.userId })
+    .then(function(){
+      res.json({ message: 'We delete it!'})
+    })
+    .catch(function (err) {
+      res.send(err);
+    })
 }
